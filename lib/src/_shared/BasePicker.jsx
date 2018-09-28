@@ -24,14 +24,18 @@ class BasePicker extends React.Component {
       this.changeDate(getInitialDate(this.props));
     }
     if (prevProps.startDate !== startDate || prevProps.utils.locale !== utils.locale) {
-      this.changeDate(getInitialDate(this.props, startDate));
+      this.changeStartDate(getInitialDate(this.props, startDate));
     }
     if (prevProps.endDate !== endDate || prevProps.utils.locale !== utils.locale) {
-      this.changeDate(getInitialDate(this.props, endDate));
+      this.changeEndDate(getInitialDate(this.props, endDate));
     }
   }
 
   changeDate = (date, callback) => this.setState({ date }, callback);
+
+  changeStartDate = (startDate, callback) => this.setState({ startDate }, callback);
+
+  changeEndDate = (endDate, callback) => this.setState({ endDate }, callback);
 
   handleAcceptedChange = (isAccepted, callback) => this.setState({ isAccepted }, callback);
 

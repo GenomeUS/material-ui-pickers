@@ -193,14 +193,14 @@ export class Calendar extends Component {
     return week.map((day) => {
       const disabled = this.shouldDisableDate(day);
       const dayInCurrentMonth = utils.getMonth(day) === currentMonthNumber;
-
+      console.log(day, utils.isSameDay(day, startDate), utils.isSameDay(day, endDate));
       let dayComponent = (
         <Day
           current={utils.isSameDay(day, now)}
-          inRange={true}
+          inRange={day.isBetween(startDate, endDate)}
           hidden={!dayInCurrentMonth}
           disabled={disabled}
-          selected={utils.isSameDay(selectedDate, day)}
+          selected={utils.isSameDay(day, startDate) || utils.isSameDay(day, endDate)}
         >
           {utils.getDayText(day)}
         </Day>
