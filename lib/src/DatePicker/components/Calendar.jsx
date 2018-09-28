@@ -197,6 +197,7 @@ export class Calendar extends Component {
       let dayComponent = (
         <Day
           current={utils.isSameDay(day, now)}
+          inRange={true}
           hidden={!dayInCurrentMonth}
           disabled={disabled}
           selected={utils.isSameDay(selectedDate, day)}
