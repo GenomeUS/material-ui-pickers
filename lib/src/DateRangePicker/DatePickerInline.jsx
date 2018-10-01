@@ -34,9 +34,8 @@ export const DatePickerInline = (props) => {
   } = props;
 
   const ComponentToShow = onlyCalendar ? Calendar : DatePicker;
-  console.log("dates:", startDate, endDate);
   return (
-    <RangeBasePicker {...props} autoOk>
+    <RangeBasePicker {...props}>
       {
         ({
           date,
@@ -44,6 +43,7 @@ export const DatePickerInline = (props) => {
           isAccepted,
           handleChange,
           handleTextFieldChange,
+          handleAccept,
           startDate,
           endDate,
         }) => (
@@ -54,6 +54,7 @@ export const DatePickerInline = (props) => {
             labelFunc={labelFunc}
             maxDate={maxDate}
             minDate={minDate}
+            onAccept={handleAccept}
             onChange={handleTextFieldChange}
             innerRef={forwardedRef}
             value={value}
@@ -78,6 +79,8 @@ export const DatePickerInline = (props) => {
               renderDay={renderDay}
               rightArrowIcon={rightArrowIcon}
               shouldDisableDate={shouldDisableDate}
+              clearable={false}
+
             />
           </RangeInlineWrapper>
         )

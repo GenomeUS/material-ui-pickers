@@ -185,7 +185,6 @@ export class Calendar extends Component {
 
   renderDays = (week) => {
     const { date, renderDay, utils, startDate, endDate } = this.props;
-    console.log(startDate,endDate, date);
     const selectedDate = utils.startOfDay(date);
     const currentMonthNumber = utils.getMonth(this.state.currentMonth);
     const now = utils.date();
@@ -193,7 +192,6 @@ export class Calendar extends Component {
     return week.map((day) => {
       const disabled = this.shouldDisableDate(day);
       const dayInCurrentMonth = utils.getMonth(day) === currentMonthNumber;
-      console.log(day, utils.isSameDay(day, startDate), utils.isSameDay(day, endDate));
       let dayComponent = (
         <Day
           current={utils.isSameDay(day, now)}

@@ -83,7 +83,7 @@ class RangeBasePicker extends React.Component {
     if (date === null) {
       onChange(null);
     } else {
-      this.changeDate(date, () => onChange(date));
+      this.changeDate(date);
     }
   };
 
@@ -96,12 +96,11 @@ class RangeBasePicker extends React.Component {
     return ampm ? default12hFormat : default24hFormat;
   };
 
-  handleChange = (newDate, isFinish = true) => {
+  handleChange = (newDate) => {
     const { handleAcceptedChange, changeDate } = this;
     const { autoOk, onChange } = this.props;
     changeDate(newDate, () => {
-      console.log(this.state);
-      if (isFinish && autoOk && false) {
+      if (autoOk) {
         onChange(newDate);
         // pass down accept true, and make it false in the next tick
         handleAcceptedChange(true, () => handleAcceptedChange(false));

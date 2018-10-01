@@ -1,5 +1,9 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
+import DialogActions from '@material-ui/core/DialogActions';
+import classnames from 'classnames';
 
 import Calendar from './components/Calendar';
 import YearSelection from './components/YearSelection';
@@ -40,6 +44,7 @@ export class DatePicker extends PureComponent {
     rightArrowIcon: undefined,
     renderDay: undefined,
     shouldDisableDate: undefined,
+    clearable: false,
   }
 
   state = {
@@ -85,6 +90,9 @@ export class DatePicker extends PureComponent {
       allowKeyboardControl,
       startDate,
       endDate,
+      clearable,
+      onClose,
+      onAccept,
     } = this.props;
     const { showYearSelection } = this.state;
 
@@ -141,6 +149,47 @@ export class DatePicker extends PureComponent {
               />
             )
         }
+        <DialogActions
+          style={{
+            diplay: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          {
+            clearable &&
+            <Button
+              color="primary"
+              onClick={()=>{}}
+              aria-label={'Clear'}
+
+            >
+              { 'Clear' }
+            </Button>
+          }
+
+          <Button
+            color="primary"
+            onClick={onClose}
+            aria-label={'Cancel'}
+            style={{
+              margin: 0,
+              color: 'black',
+            }}
+          >
+            { 'Cancel' }
+          </Button>
+
+          <Button
+            color="primary"
+            onClick={onAccept}
+            aria-label={'OK'}
+            style={{
+              margin: 0,
+            }}
+          >
+            { 'OK' }
+          </Button>
+        </DialogActions>
       </Fragment>
     );
   }

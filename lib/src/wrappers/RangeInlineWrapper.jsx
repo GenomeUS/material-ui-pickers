@@ -85,10 +85,9 @@ export class RangeInlineWrapper extends PureComponent {
       classes,
       startDate,
       endDate,
+      onAccept,
       ...other
     } = this.props;
-
-    console.log("InlineWrapper", startDate, endDate);
 
     return (
       <Fragment>
@@ -117,7 +116,10 @@ export class RangeInlineWrapper extends PureComponent {
             vertical: 'top',
             horizontal: keyboard ? 'right' : 'center',
           }}
-          children={children}
+          children={React.cloneElement(this.props.children, {
+            onClose: this.close,
+            onAccept: ()=>{onAccept(); this.close();}
+          })}
           {...PopoverProps}
         />
       </Fragment>
