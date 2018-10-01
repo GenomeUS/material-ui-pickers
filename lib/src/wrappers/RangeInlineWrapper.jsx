@@ -40,6 +40,8 @@ export class RangeInlineWrapper extends PureComponent {
     PopoverProps: undefined,
     isAccepted: false,
     keyboard: undefined,
+    startDate: undefined,
+    endDate: undefined,
   }
 
   state = {

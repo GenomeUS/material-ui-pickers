@@ -66,6 +66,14 @@ class RangeBasePicker extends React.Component {
     return 0;
   }
 
+  resetDates = () => {
+    const {startDate, endDate} = this.props;
+    this.setState({
+      startDate: startDate? getInitialDate(this.props, startDate) : null,
+      endDate: endDate? getInitialDate(this.props, endDate) : null,
+    })
+  }
+
 
   changeStartDate = (startDate, callback) => this.setState({ startDate }, callback);
 
@@ -73,7 +81,7 @@ class RangeBasePicker extends React.Component {
 
   handleAcceptedChange = (isAccepted, callback) => this.setState({ isAccepted }, callback);
 
-  handleClear = () => this.props.onChange(null);
+  handleClear = () => {this.resetDates()};
 
   handleAccept = () => this.props.onChange(this.state.startDate, this.state.endDate);
 
