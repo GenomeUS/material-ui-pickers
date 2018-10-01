@@ -1,8 +1,8 @@
 import { ComponentClass, ReactNode } from 'react';
-import { DateTextFieldProps } from '../_shared/DateTextField';
+import { RangeDateTextFieldProps } from '../_shared/RangeDateTextField';
 import { PopoverProps } from '@material-ui/core/Popover';
 
-export interface RangeInlineWrapperProps extends Partial<DateTextFieldProps> {
+export interface RangeInlineWrapperProps extends Partial<RangeDateTextFieldProps> {
   onOpen?: () => void;
   onClose?: () => void;
   PopoverProps?: Partial<PopoverProps>;

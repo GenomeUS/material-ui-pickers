@@ -2,7 +2,7 @@ import React, { Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Popover from '@material-ui/core/Popover';
 import withStyles from '@material-ui/core/styles/withStyles';
-import DateTextField from '../_shared/DateTextField';
+import RangeDateTextField from '../_shared/RangeDateTextField';
 import DomainPropTypes from '../constants/prop-types';
 
 export class RangeInlineWrapper extends PureComponent {
@@ -90,7 +90,7 @@ export class RangeInlineWrapper extends PureComponent {
 
     return (
       <Fragment>
-        <DateTextField
+        <RangeDateTextField
           value={value}
           format={format}
           onClick={this.open}

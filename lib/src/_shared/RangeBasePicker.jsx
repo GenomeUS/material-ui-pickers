@@ -29,20 +29,6 @@ class RangeBasePicker extends React.Component {
     }
   }
 
-  /*
-  changeDate = (date, callback) => {
-    const {startDate} = this.state;
-    if(!startDate){
-      this.changeStartDate(date, callback);
-    }
-    if(date.isAfter(startDate)){
-      this.changeEndDate(date, callback);
-    }else{
-      this.changeStartDate(date, callback);
-    }
-  }
-  */
-
   getNextDateToChange = (dateToChange) => {
     if(dateToChange === 'startDate'){
       return 'endDate';
@@ -56,6 +42,11 @@ class RangeBasePicker extends React.Component {
       return -1;
     }
     if(startDate && date.isBefore(startDate) && dateToChange === 'endDate'){
+      this.setState({
+        startDate: date,
+        endDate: null,
+        date,
+      }, callback)
       return 0;
     }
     if(dateToChange === 'startDate'){
@@ -72,6 +63,7 @@ class RangeBasePicker extends React.Component {
         dateToChange: 'startDate',
       }, callback)
     }
+    return 0;
   }
 
 
