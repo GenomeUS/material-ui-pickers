@@ -127,6 +127,8 @@ DatePickerInline.defaultProps = {
   forwardedRef: undefined,
   autoOk: false,
   onlyCalendar: false,
+  startDate: undefined,
+  endDate: undefined,
 };
 
 export default React.forwardRef((props, ref) => (
