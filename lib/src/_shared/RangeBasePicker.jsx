@@ -3,8 +3,8 @@
 import * as React from 'react';
 import withUtils from './WithUtils';
 
-const getInitialDate = ({ utils, value, initialFocusedDate }) => {
-  const initialDate = value || initialFocusedDate || utils.date();
+const getInitialDate = ({ utils, value, initialFocusedDate }, dateToParse) => {
+  const initialDate = dateToParse || value || initialFocusedDate || utils.date();
   const date = utils.date(initialDate);
 
   return utils.isValid(date) ? date : utils.date();
@@ -12,18 +12,24 @@ const getInitialDate = ({ utils, value, initialFocusedDate }) => {
 
 class BasePicker extends React.Component {
   state = {
-    date: getInitialDate(this.props),
+    startDate: getInitialDate(this.props, this.props.startDate),
+    endDate: getInitialDate(this.props, this.props.endDate),
     isAccepted: false,
   };
 
   componentDidUpdate(prevProps) {
-    const { utils, value } = this.props;
-    if (prevProps.value !== value || prevProps.utils.locale !== utils.locale) {
-      this.changeDate(getInitialDate(this.props));
+    const { utils, startDate, endDate } = this.props;
+    if (prevProps.startDate !== startDate || prevProps.utils.locale !== utils.locale) {
+      this.changeStartDate(getInitialDate(this.props, startDate));
+    }
+    if (prevProps.endDate !== endDate || prevProps.utils.locale !== utils.locale) {
+      this.changeEndDate(getInitialDate(this.props, endDate));
     }
   }
 
-  changeDate = (date, callback) => this.setState({ date }, callback);
+  changeStartDate = (startDate, callback) => this.setState({ startDate }, callback);
+
+  changeEndDate = (endDate, callback) => this.setState({ endDate }, callback);
 
   handleAcceptedChange = (isAccepted, callback) => this.setState({ isAccepted }, callback);
 
@@ -64,6 +70,7 @@ class BasePicker extends React.Component {
   };
 
   render() {
+    const {startDate, endDate} = this.props;
     return this.props.children({
       ...this.props,
       ...this.state,

@@ -81,8 +81,12 @@ export class InlineWrapper extends PureComponent {
       keyboard,
       onlyCalendar,
       classes,
+      startDate,
+      endDate,
       ...other
     } = this.props;
+
+    console.log("InlineWrapper", startDate, endDate);
 
     return (
       <Fragment>
