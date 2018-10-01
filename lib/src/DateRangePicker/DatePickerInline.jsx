@@ -45,7 +45,7 @@ export const DatePickerInline = (props) => {
           handleChange,
           handleTextFieldChange,
           startDate,
-           endDate,
+          endDate,
         }) => (
           <RangeInlineWrapper
             disableFuture={disableFuture}

@@ -14,8 +14,8 @@ class RangeBasePicker extends React.Component {
   state = {
     date: getInitialDate(this.props, new Date()),
     dateToChange:'startDate',
-    startDate: getInitialDate(this.props, this.props.startDate),
-    endDate: getInitialDate(this.props, this.props.endDate),
+    startDate: null,
+    endDate: null,
     isAccepted: false,
   };
 

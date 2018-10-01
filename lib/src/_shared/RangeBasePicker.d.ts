@@ -3,7 +3,6 @@ import { MaterialUiPickersDate } from '../typings/date'
 import { ComponentClass, ReactNode } from 'react';
 
 export interface RangeBasePickerProps {
-  value: DateType;
   utils?: any;
   onChange: (date: MaterialUiPickersDate) => void;
   autoOk?: boolean;
@@ -11,10 +10,14 @@ export interface RangeBasePickerProps {
   format?: string;
   labelFunc?: (date: MaterialUiPickersDate, invalidLabel: string) => string;
   disableOpenOnEnter?: boolean;
+  startDate: DateType;
+  endDate: DateType;
 }
 
 export interface InnerRangeBasePickerProps {
   date: MaterialUiPickersDate;
+  startDate: MaterialUiPickersDate;
+  endDate: MaterialUiPickersDate;
   handleClear: () => void;
   handleAccept: () => void;
   handleSetTodayDate: () => void;

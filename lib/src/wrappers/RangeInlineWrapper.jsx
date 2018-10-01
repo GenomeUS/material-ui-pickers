@@ -25,6 +25,8 @@ export class RangeInlineWrapper extends PureComponent {
     children: PropTypes.node.isRequired,
     keyboard: PropTypes.bool,
     classes: PropTypes.object.isRequired,
+    startDate: DomainPropTypes.date,
+    endDate: DomainPropTypes.date,
   }
 
   static defaultProps = {
@@ -91,7 +93,8 @@ export class RangeInlineWrapper extends PureComponent {
     return (
       <Fragment>
         <RangeDateTextField
-          value={value}
+          startDate={startDate}
+          endDate={endDate}
           format={format}
           onClick={this.open}
           keyboard={keyboard}

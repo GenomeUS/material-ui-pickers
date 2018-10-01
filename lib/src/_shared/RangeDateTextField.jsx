@@ -162,7 +162,8 @@ export class RangeDateTextField extends PureComponent {
 
   componentDidUpdate(prevProps) {
     if (
-      !this.props.utils.isEqual(this.props.value, prevProps.value)
+      !this.props.utils.isEqual(this.props.startDate, prevProps.startDate)
+      || !this.props.utils.isEqual(this.props.endDate, prevProps.endDate)
       || prevProps.format !== this.props.format
       || prevProps.maxDate !== this.props.maxDate
       || prevProps.minDate !== this.props.minDate
@@ -308,7 +309,6 @@ export class RangeDateTextField extends PureComponent {
       },
     };
 
-    if (keyboard) {
       localInputProps[`${adornmentPosition}Adornment`] = (
         <InputAdornment
           position={adornmentPosition}
@@ -326,7 +326,7 @@ export class RangeDateTextField extends PureComponent {
           </IconButton>
         </InputAdornment>
       );
-    }
+
 
     return (
       <TextFieldComponent
