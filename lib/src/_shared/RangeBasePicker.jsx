@@ -10,8 +10,9 @@ const getInitialDate = ({ utils, value, initialFocusedDate }, dateToParse) => {
   return utils.isValid(date) ? date : utils.date();
 };
 
-class BasePicker extends React.Component {
+class RangeBasePicker extends React.Component {
   state = {
+    date: getInitialDate(this.props, new Date()),
     startDate: getInitialDate(this.props, this.props.startDate),
     endDate: getInitialDate(this.props, this.props.endDate),
     isAccepted: false,
@@ -86,4 +87,4 @@ class BasePicker extends React.Component {
   }
 }
 
-export default withUtils()(BasePicker);
+export default withUtils()(RangeBasePicker);

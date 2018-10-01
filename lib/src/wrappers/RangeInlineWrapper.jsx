@@ -5,7 +5,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import DateTextField from '../_shared/DateTextField';
 import DomainPropTypes from '../constants/prop-types';
 
-export class InlineWrapper extends PureComponent {
+export class RangeInlineWrapper extends PureComponent {
   static propTypes = {
     /** Show only calendar for datepicker in popover mode */
     onlyCalendar: PropTypes.bool,
@@ -130,4 +130,4 @@ const styles = {
   },
 };
 
-export default withStyles(styles)(InlineWrapper);
+export default withStyles(styles)(RangeInlineWrapper);

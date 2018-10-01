@@ -2,7 +2,7 @@ import { DateType } from '../constants/prop-types';
 import { MaterialUiPickersDate } from '../typings/date'
 import { ComponentClass, ReactNode } from 'react';
 
-export interface BasePickerProps {
+export interface RangeBasePickerProps {
   value: DateType;
   utils?: any;
   onChange: (date: MaterialUiPickersDate) => void;
@@ -13,7 +13,7 @@ export interface BasePickerProps {
   disableOpenOnEnter?: boolean;
 }
 
-export interface InnerBasePickerProps {
+export interface InnerRangeBasePickerProps {
   date: MaterialUiPickersDate;
   handleClear: () => void;
   handleAccept: () => void;
@@ -23,9 +23,9 @@ export interface InnerBasePickerProps {
   pick12hOr24hFormat: (default12hFormat: string, default24hFormat: string) => string;
 }
 
-export interface OuterBasePickerProps extends BasePickerProps {
-  children: (options: InnerBasePickerProps) => ReactNode;
+export interface OuterRangeBasePickerProps extends RangeBasePickerProps {
+  children: (options: InnerRangeBasePickerProps) => ReactNode;
 }
 
-declare const BasePickerRenderProp: ComponentClass<OuterBasePickerProps>
-export default BasePickerRenderProp
+declare const RangeBasePickerRenderProp: ComponentClass<OuterRangeBasePickerProps>
+export default RangeBasePickerRenderProp

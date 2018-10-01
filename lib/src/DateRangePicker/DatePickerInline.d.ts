@@ -3,15 +3,15 @@ import { DateType } from '../constants/prop-types';
 import { Utils } from '../typings/utils';
 import { RenderDay } from './components/Calendar';
 import { MaterialUiPickersDate } from '../typings/date'
-import { BasePickerProps } from '../_shared/BasePicker'
+import { RangeBasePickerProps } from '../_shared/RangeBasePicker'
 import { Omit } from '@material-ui/core'
 import { BaseDatePickerProps } from './DatePicker';
-import { InlineWrapperProps } from '../wrappers/InlineWrapper';
+import { RangeInlineWrapperProps } from '../wrappers/RangeInlineWrapper';
 
 export interface DatePickerInlineProps extends
-  BasePickerProps,
+  RangeBasePickerProps,
   BaseDatePickerProps,
-  Omit<InlineWrapperProps, 'onChange' | 'value'> {
+  Omit<RangeInlineWrapperProps, 'onChange' | 'value'> {
     onlyCalendar?: boolean
   }
 

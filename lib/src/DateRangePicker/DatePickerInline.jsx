@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import InlineWrapper from '../wrappers/InlineWrapper';
+import RangeInlineWrapper from '../wrappers/RangeInlineWrapper';
 import DatePicker from './DatePicker';
 import DomainPropTypes from '../constants/prop-types';
-import BasePicker from '../_shared/BasePicker';
+import RangeBasePicker from '../_shared/RangeBasePicker';
 import Calendar from './components/Calendar';
 
 export const DatePickerInline = (props) => {
@@ -36,7 +36,7 @@ export const DatePickerInline = (props) => {
   const ComponentToShow = onlyCalendar ? Calendar : DatePicker;
   console.log("dates:", startDate, endDate);
   return (
-    <BasePicker {...props} autoOk>
+    <RangeBasePicker {...props} autoOk>
       {
         ({
           date,
@@ -47,7 +47,7 @@ export const DatePickerInline = (props) => {
           startDate,
            endDate,
         }) => (
-          <InlineWrapper
+          <RangeInlineWrapper
             disableFuture={disableFuture}
             disablePast={disablePast}
             format={format || utils.dateFormat}
@@ -79,10 +79,10 @@ export const DatePickerInline = (props) => {
               rightArrowIcon={rightArrowIcon}
               shouldDisableDate={shouldDisableDate}
             />
-          </InlineWrapper>
+          </RangeInlineWrapper>
         )
       }
-    </BasePicker>
+    </RangeBasePicker>
   );
 };
 
@@ -125,7 +125,7 @@ DatePickerInline.defaultProps = {
   labelFunc: undefined,
   shouldDisableDate: undefined,
   forwardedRef: undefined,
-  autoOk: undefined,
+  autoOk: false,
   onlyCalendar: false,
 };
 
