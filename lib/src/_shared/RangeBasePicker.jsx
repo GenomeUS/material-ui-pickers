@@ -3,7 +3,7 @@
 import * as React from 'react';
 import withUtils from './WithUtils';
 
-const getInitialDate = ({ utils, value, initialFocusedDate }, dateToParse) => {
+const getInitialDate = ({ utils, initialFocusedDate }, dateToParse) => {
   const initialDate = dateToParse || initialFocusedDate || utils.date();
   const date = utils.date(initialDate);
 
@@ -13,7 +13,7 @@ const getInitialDate = ({ utils, value, initialFocusedDate }, dateToParse) => {
 class RangeBasePicker extends React.Component {
   state = {
     date: getInitialDate(this.props, new Date()),
-    dateToChange:'startDate',
+    dateToChange: 'startDate',
     startDate: null,
     endDate: null,
     isAccepted: false,
@@ -30,48 +30,48 @@ class RangeBasePicker extends React.Component {
   }
 
   getNextDateToChange = (dateToChange) => {
-    if(dateToChange === 'startDate'){
+    if (dateToChange === 'startDate') {
       return 'endDate';
     }
     return 'startDate';
   }
 
   changeDate = (date, callback) => {
-    const {dateToChange, startDate} = this.state;
-    if(!date){
+    const { dateToChange, startDate } = this.state;
+    if (!date) {
       return -1;
     }
-    if(startDate && date.isBefore(startDate) && dateToChange === 'endDate'){
+    if (startDate && date.isBefore(startDate) && dateToChange === 'endDate') {
       this.setState({
         startDate: date,
         endDate: null,
         date,
-      }, callback)
+      }, callback);
       return 0;
     }
-    if(dateToChange === 'startDate'){
+    if (dateToChange === 'startDate') {
       this.setState({
         startDate: date,
         endDate: null,
         date,
         dateToChange: 'endDate',
-      }, callback)
-    }else{
+      }, callback);
+    } else {
       this.setState({
         endDate: date,
         date,
         dateToChange: 'startDate',
-      }, callback)
+      }, callback);
     }
     return 0;
   }
 
   resetDates = () => {
-    const {startDate, endDate} = this.props;
+    const { startDate, endDate } = this.props;
     this.setState({
-      startDate: startDate? getInitialDate(this.props, startDate) : null,
-      endDate: endDate? getInitialDate(this.props, endDate) : null,
-    })
+      startDate: startDate ? getInitialDate(this.props, startDate) : null,
+      endDate: endDate ? getInitialDate(this.props, endDate) : null,
+    });
   }
 
 
@@ -81,7 +81,7 @@ class RangeBasePicker extends React.Component {
 
   handleAcceptedChange = (isAccepted, callback) => this.setState({ isAccepted }, callback);
 
-  handleClear = () => {this.resetDates()};
+  handleClear = () => { this.resetDates(); };
 
   handleAccept = () => this.props.onChange(this.state.startDate, this.state.endDate);
 
@@ -124,7 +124,7 @@ class RangeBasePicker extends React.Component {
       handleAcceptedChange: this.handleAcceptedChange,
       handleClear: this.handleClear,
       handleAccept: this.handleAccept,
-      handleSetTodayDate: ()=>{},
+      handleSetTodayDate: () => {},
       handleTextFieldChange: this.handleTextFieldChange,
       pick12hOr24hFormat: this.pick12hOr24hFormat,
       handleChange: this.handleChange,
