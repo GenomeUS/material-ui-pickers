@@ -1,9 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import DialogActions from '@material-ui/core/DialogActions';
-import classnames from 'classnames';
 
 import Calendar from './components/Calendar';
 import YearSelection from './components/YearSelection';
@@ -29,6 +27,9 @@ export class DatePicker extends PureComponent {
     utils: PropTypes.object.isRequired,
     shouldDisableDate: PropTypes.func,
     allowKeyboardControl: PropTypes.bool,
+    clearable: PropTypes.bool,
+    onClose: PropTypes.func,
+    onAccept: PropTypes.func,
   }
 
   static defaultProps = {
@@ -45,6 +46,8 @@ export class DatePicker extends PureComponent {
     renderDay: undefined,
     shouldDisableDate: undefined,
     clearable: false,
+    onClose: () => {},
+    onAccept: () => {},
   }
 
   state = {
@@ -156,21 +159,22 @@ export class DatePicker extends PureComponent {
           }}
         >
           {
-            clearable &&
+            clearable
+            && (
             <Button
               color="primary"
-              onClick={()=>{}}
-              aria-label={'Clear'}
-
+              onClick={() => {}}
+              aria-label="Clear"
             >
               { 'Clear' }
             </Button>
+            )
           }
 
           <Button
             color="primary"
             onClick={onClose}
-            aria-label={'Cancel'}
+            aria-label="Cancel"
             style={{
               margin: 0,
               color: 'black',
@@ -182,7 +186,7 @@ export class DatePicker extends PureComponent {
           <Button
             color="primary"
             onClick={onAccept}
-            aria-label={'OK'}
+            aria-label="OK"
             style={{
               margin: 0,
             }}

@@ -111,6 +111,8 @@ DatePickerInline.propTypes = {
   allowKeyboardControl: PropTypes.bool,
   forwardedRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   autoOk: PropTypes.bool,
+  startDate: DomainPropTypes.date,
+  endDate: DomainPropTypes.date,
 };
 
 DatePickerInline.defaultProps = {

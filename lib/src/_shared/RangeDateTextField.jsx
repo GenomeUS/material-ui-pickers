@@ -192,22 +192,11 @@ export class RangeDateTextField extends PureComponent {
     }
   }
 
-  handleBlur = (e) => {
+  handleBlur = () => {
 
   };
 
   handleChange = (e) => {
-    const { utils, format, onInputChange } = this.props;
-    const parsedValue = utils.parse(e.target.value, format);
-
-    if (onInputChange) {
-      onInputChange(e);
-    }
-
-    this.setState({
-      displayValue: e.target.value,
-      error: getError(parsedValue, this.props),
-    });
   }
 
   handleFocus = (e) => {

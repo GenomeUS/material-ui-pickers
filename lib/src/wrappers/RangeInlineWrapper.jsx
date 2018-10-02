@@ -120,7 +120,7 @@ export class RangeInlineWrapper extends PureComponent {
           }}
           children={React.cloneElement(this.props.children, {
             onClose: this.close,
-            onAccept: ()=>{onAccept(); this.close();}
+            onAccept: () => { onAccept(); this.close(); },
           })}
           {...PopoverProps}
         />
