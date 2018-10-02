@@ -11,26 +11,23 @@ import withUtils from './WithUtils';
 
 const getDisplayDate = (props) => {
   const {
-    utils, value, format, invalidLabel, emptyLabel, labelFunc,
+    utils, startDate, endDate, format, invalidLabel, emptyLabel,
   } = props;
 
-  const isEmpty = value === null;
-  const date = utils.date(value);
-
-  if (labelFunc) {
-    return labelFunc(isEmpty ? null : date, invalidLabel);
-  }
+  const isEmpty = (startDate === null || endDate === null);
+  const startDateConverted = utils.date(startDate);
+  const endDateConverted = utils.date(endDate);
 
   if (isEmpty) {
     return emptyLabel;
   }
 
-  return utils.isValid(date)
-    ? utils.format(date, format)
+  return utils.isValid(startDateConverted) && utils.isValid(endDateConverted)
+    ? `${utils.format(startDateConverted, format)} - ${utils.format(endDateConverted, format)}`
     : invalidLabel;
 };
 
-const getError = (value, props) => {
+const getError = (date, props) => {
   const {
     utils,
     maxDate,
@@ -42,9 +39,13 @@ const getError = (value, props) => {
     invalidDateMessage,
   } = props;
 
-  if (!utils.isValid(value)) {
+  if (!utils || !date) {
+    return '';
+  }
+
+  if (!utils.isValid(date)) {
     // if null - do not show error
-    if (utils.isNull(value)) {
+    if (utils.isNull(date)) {
       return '';
     }
 
@@ -52,15 +53,15 @@ const getError = (value, props) => {
   }
 
   if (
-    (maxDate && utils.isAfter(value, utils.endOfDay(utils.date(maxDate))))
-    || (disableFuture && utils.isAfter(value, utils.endOfDay(utils.date())))
+    (maxDate && utils.isAfter(date, utils.endOfDay(utils.date(maxDate))))
+    || (disableFuture && utils.isAfter(date, utils.endOfDay(utils.date())))
   ) {
     return maxDateMessage;
   }
 
   if (
-    (minDate && utils.isBefore(value, utils.startOfDay(utils.date(minDate))))
-    || (disablePast && utils.isBefore(value, utils.startOfDay(utils.date())))
+    (minDate && utils.isBefore(date, utils.startOfDay(utils.date(minDate))))
+    || (disablePast && utils.isBefore(date, utils.startOfDay(utils.date())))
   ) {
     return minDateMessage;
   }
@@ -68,11 +69,25 @@ const getError = (value, props) => {
   return '';
 };
 
-export class DateTextField extends PureComponent {
+const getErrors = (dates = [], props) => {
+  const errors = [];
+  dates.forEach((date) => {
+    const error = getError(date, props);
+    if (error && error !== '') {
+      errors.push(error);
+    }
+  });
+  if (errors.length === 0) {
+    return '';
+  }
+  return errors[0];
+};
+
+export class RangeDateTextField extends PureComponent {
   static updateState = props => ({
     value: props.value,
     displayValue: getDisplayDate(props),
-    error: getError(props.utils.date(props.value), props),
+    error: getErrors([props.startDate, props.endDate], props),
   });
 
   static propTypes = {
@@ -160,11 +175,12 @@ export class DateTextField extends PureComponent {
     pipe: undefined,
   }
 
-  state = DateTextField.updateState(this.props)
+  state = RangeDateTextField.updateState(this.props)
 
   componentDidUpdate(prevProps) {
     if (
-      !this.props.utils.isEqual(this.props.value, prevProps.value)
+      !this.props.utils.isEqual(this.props.startDate, prevProps.startDate)
+      || !this.props.utils.isEqual(this.props.endDate, prevProps.endDate)
       || prevProps.format !== this.props.format
       || prevProps.maxDate !== this.props.maxDate
       || prevProps.minDate !== this.props.minDate
@@ -172,72 +188,15 @@ export class DateTextField extends PureComponent {
       || prevProps.utils !== this.props.utils
     ) {
       /* eslint-disable-next-line react/no-did-update-set-state */
-      this.setState(DateTextField.updateState(this.props));
+      this.setState(RangeDateTextField.updateState(this.props));
     }
   }
 
-  commitUpdates = (value) => {
-    const {
-      clearable,
-      onClear,
-      utils,
-      format,
-      onError,
-    } = this.props;
+  handleBlur = () => {
 
-    if (value === '') {
-      if (this.props.value === null) {
-        this.setState(DateTextField.updateState(this.props));
-      } else if (clearable && onClear) {
-        onClear();
-      }
-
-      return;
-    }
-
-    const oldValue = utils.date(this.state.value);
-    const newValue = utils.parse(value, format);
-    const error = getError(newValue, this.props);
-
-    this.setState({
-      error,
-      displayValue: value,
-      value: error ? newValue : oldValue,
-    }, () => {
-      if (!error && !utils.isEqual(newValue, oldValue)) {
-        this.props.onChange(newValue);
-      }
-
-      if (error && onError) {
-        onError(newValue, error);
-      }
-    });
-  }
-
-  handleBlur = (e) => {
-    if (this.props.keyboard) {
-      e.preventDefault();
-      e.stopPropagation();
-
-      this.commitUpdates(e.target.value);
-      if (this.props.onBlur) {
-        this.props.onBlur(e);
-      }
-    }
   };
 
   handleChange = (e) => {
-    const { utils, format, onInputChange } = this.props;
-    const parsedValue = utils.parse(e.target.value, format);
-
-    if (onInputChange) {
-      onInputChange(e);
-    }
-
-    this.setState({
-      displayValue: e.target.value,
-      error: getError(parsedValue, this.props),
-    });
   }
 
   handleFocus = (e) => {
@@ -253,8 +212,6 @@ export class DateTextField extends PureComponent {
     if (e.key === 'Enter') {
       if (!this.props.disableOpenOnEnter) {
         this.openPicker(e);
-      } else {
-        this.commitUpdates(e.target.value);
       }
     }
   }
@@ -310,25 +267,24 @@ export class DateTextField extends PureComponent {
       },
     };
 
-    if (keyboard) {
-      localInputProps[`${adornmentPosition}Adornment`] = (
-        <InputAdornment
-          position={adornmentPosition}
-          {...InputAdornmentProps}
+    localInputProps[`${adornmentPosition}Adornment`] = (
+      <InputAdornment
+        position={adornmentPosition}
+        {...InputAdornmentProps}
+      >
+        <IconButton
+          disabled={disabled}
+          onClick={this.openPicker}
         >
-          <IconButton
-            disabled={disabled}
-            onClick={this.openPicker}
-          >
-            <Icon>
-              {' '}
-              {keyboardIcon}
-              {' '}
-            </Icon>
-          </IconButton>
-        </InputAdornment>
-      );
-    }
+          <Icon>
+            {' '}
+            {keyboardIcon}
+            {' '}
+          </Icon>
+        </IconButton>
+      </InputAdornment>
+    );
+
 
     return (
       <TextFieldComponent
@@ -347,4 +303,4 @@ export class DateTextField extends PureComponent {
   }
 }
 
-export default withUtils()(DateTextField);
+export default withUtils()(RangeDateTextField);
